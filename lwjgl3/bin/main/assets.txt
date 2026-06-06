@@ -1,1 +1,11 @@
-libgdx.png
+barril.png
+bucket.png
+drop.png
+drop.wav
+dropBad.png
+hurt.ogg
+impacto.wav
+mar.png
+moto.png
+motor.mp3
+rain.mp3
