@@ -33,7 +33,7 @@ public class PantallaJuego implements Screen {
     @Override
     public void show() {
         fondo   = new Texture(Gdx.files.internal("mar.png"));
-        overlay = new Texture(Gdx.files.internal("overlay.png"));
+        overlay = new Texture(Gdx.files.internal("mar.png"));
 
         Texture texturaMoto   = new Texture(Gdx.files.internal("moto.png"));
         Texture texturaBarril = new Texture(Gdx.files.internal("barril.png"));

@@ -51,7 +51,7 @@ public class PantallaGameOver implements Screen {
         layout = new GlyphLayout();
 
         fondo   = new Texture(Gdx.files.internal("mar.png"));
-        overlay = new Texture(Gdx.files.internal("overlay.png"));
+        overlay = new Texture(Gdx.files.internal("mar.png"));
 
         fuenteTitulo = new BitmapFont();
         fuenteTitulo.getData().setScale(3.5f);

@@ -36,7 +36,7 @@ public class PantallaMenu implements Screen {
         layout = new GlyphLayout();
 
         fondo   = new Texture(Gdx.files.internal("mar.png"));
-        overlay = new Texture(Gdx.files.internal("overlay.png")); // 1x1 px negro, ver nota
+        overlay = new Texture(Gdx.files.internal("mar.png")); // 1x1 px negro, ver nota
 
         // Fuente grande para el título (escala arriba de la default)
         fuenteTitulo = new BitmapFont();
