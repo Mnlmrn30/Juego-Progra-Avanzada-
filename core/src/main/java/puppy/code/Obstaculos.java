@@ -9,23 +9,31 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public class Obstaculos {
+public class Obstaculos implements EntidadJuego {
 
 	private Array<Rectangle> posicionesBarriles;
 	private long tiempoUltimoBarril;
 
-	private Texture texturaBarril;
-	private Sound sonidoImpacto;
+	private final Texture texturaBarril;
+	private final Sound   sonidoImpacto;
 
-	private float velocidadBarril = 280f;
+	private final float velocidadBarril = 280f;
+
+	// La moto se inyecta antes de llamar actualizar()
+	private MotoAcuatica moto;
 
 	public Obstaculos(Texture barril, Sound impacto) {
 		this.texturaBarril = barril;
-		this.sonidoImpacto = impacto;
+		this.sonidoImpacto  = impacto;
 	}
 
+	public void setMoto(MotoAcuatica moto) {
+		this.moto = moto;
+	}
+
+	@Override
 	public void crear() {
-		posicionesBarriles = new Array<Rectangle>();
+		posicionesBarriles = new Array<>();
 		spawnBarril();
 	}
 
@@ -33,36 +41,23 @@ public class Obstaculos {
 		Rectangle barril = new Rectangle();
 		barril.x = MathUtils.random(0, 800 - 64);
 		barril.y = 480;
-		barril.width  = 60; // Tamaño ajustado del barril
-		barril.height = 80;
+		barril.width  = 64;
+		barril.height = 64;
 		posicionesBarriles.add(barril);
 		tiempoUltimoBarril = TimeUtils.nanoTime();
 	}
 
-	public void actualizar(MotoAcuatica moto) {
-		// --- Dificultad Dinámica ---
-		long tiempoSpawnBase = 1_200_000_000L;
-		long reduccion = moto.getDistancia() * 200_000L;
-		long tiempoSpawnActual = tiempoSpawnBase - reduccion;
+	@Override
+	public void actualizar() {
+		if (moto == null) return;
 
-		// Límite para que no se vuelva imposible
-		if (tiempoSpawnActual < 250_000_000L) {
-			tiempoSpawnActual = 250_000_000L;
-		}
-
-		// Aumenta la velocidad de caída según la distancia
-		float velocidadActual = velocidadBarril + (moto.getDistancia() * 0.06f);
-
-		if (TimeUtils.nanoTime() - tiempoUltimoBarril > tiempoSpawnActual) {
-			spawnBarril();
-		}
+		if (TimeUtils.nanoTime() - tiempoUltimoBarril > 1_200_000_000L) spawnBarril();
 
 		for (int i = 0; i < posicionesBarriles.size; i++) {
 			Rectangle barril = posicionesBarriles.get(i);
+			barril.y -= velocidadBarril * Gdx.graphics.getDeltaTime();
 
-			barril.y -= velocidadActual * Gdx.graphics.getDeltaTime();
-
-			if (barril.y + barril.height < 0) {
+			if (barril.y + 64 < 0) {
 				posicionesBarriles.removeIndex(i);
 				i--;
 				continue;
@@ -76,13 +71,16 @@ public class Obstaculos {
 		}
 	}
 
+	@Override
 	public void dibujar(SpriteBatch batch) {
 		for (Rectangle barril : posicionesBarriles) {
-			batch.draw(texturaBarril, barril.x, barril.y, barril.width, barril.height);
+			batch.draw(texturaBarril, barril.x, barril.y);
 		}
 	}
 
+	@Override
 	public void destruir() {
-		// No destruir la textura aquí si la maneja GameEvasion, pero se mantiene por estructura básica
+		texturaBarril.dispose();
+
 	}
 }
