@@ -1,6 +1,7 @@
 package puppy.code;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class PantallaJuego implements Screen {
 
     private final GameEvasion juego;
+    private boolean pausado = false;
     private OrthographicCamera camara;
     private SpriteBatch batch;
     private BitmapFont fuenteHUD;
@@ -57,6 +59,11 @@ public class PantallaJuego implements Screen {
 
     @Override
     public void render(float delta) {
+    	
+    	if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+    		pausado = !pausado;
+    	}
+    	
         ScreenUtils.clear(0f, 0.05f, 0.18f, 1f);
         camara.update();
         batch.setProjectionMatrix(camara.combined);
@@ -70,11 +77,13 @@ public class PantallaJuego implements Screen {
         batch.setColor(0f, 0f, 0f, 0.18f);
         batch.draw(overlay, 0, 0, 800, 480);
         batch.setColor(Color.WHITE);
-
-        // Lógica
-        if (!moto.estaHerido()) {
-            moto.actualizar();
-            obstaculos.actualizar();
+        
+        if (!pausado) {
+        	// Logica
+        	if (!moto.estaHerido()) {
+                moto.actualizar();
+                obstaculos.actualizar();
+            }
         }
 
         // Sprites
@@ -89,7 +98,7 @@ public class PantallaJuego implements Screen {
 
         // Distancia
         fuenteHUD.setColor(0.5f, 0.9f, 1f, 1f);
-        fuenteHUD.draw(batch, "DIST", 10, 475);
+        fuenteHUD.draw(batch, "DISTANCIA", 10, 475);
         fuenteHUD.setColor(Color.WHITE);
         fuenteHUD.draw(batch, String.valueOf(moto.getDistancia()), 60, 475);
 
@@ -102,13 +111,20 @@ public class PantallaJuego implements Screen {
         // Record
         fuenteHUD.setColor(1f, 0.82f, 0.25f, 0.85f);
         int hs = Gdx.app.getPreferences("evasion_maritima").getInteger("high_score", 0);
-        String recStr = "REC " + hs;
+        String recStr = "RECORD " + hs;
         layout.setText(fuenteHUD, recStr);
         fuenteHUD.draw(batch, recStr, 800 - layout.width - 10, 475);
-
+        
+        if (pausado) {
+        	fuenteHUD.getData().setScale(2f);
+        	fuenteHUD.draw(batch, "PAUSA", 340, 300);
+        	fuenteHUD.getData().setScale(1f);
+        	fuenteHUD.draw(batch, "Presiona P para continuar", 260, 240);
+        }
+        
         batch.end();
 
-        if (!moto.estaVivo()) {
+        if (!pausado && !moto.estaVivo()) {
             juego.setScreen(new PantallaGameOver(juego, moto.getDistancia()));
             dispose();
         }
@@ -135,4 +151,6 @@ public class PantallaJuego implements Screen {
         batch.dispose();
         fuenteHUD.dispose();
     }
+    
+    
 }
