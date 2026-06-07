@@ -114,6 +114,16 @@ public class MotoAcuatica extends EntidadJuego {
 		return nivelGasolina;
 	}
 	
+	public void restarVida() {
+		this.vidas--;
+	}
+	
+	public void sumarGasolina() {
+		this.nivelGasolina += 30;
+		if (this.nivelGasolina > 100) {
+			this.nivelGasolina = 100; 
+		}
+	}
 	
 	public Rectangle getArea()      { return areaColision; }
 	public int getVidas()           { return vidas; }

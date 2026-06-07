@@ -34,13 +34,8 @@ public class Obstaculos {
             if (e.y < -64) {
                 entidades.removeIndex(i); i--;
             } else if (e.getArea().overlaps(moto.getArea())) {
-                // AQUÍ EL POLIMORFISMO
-                if (e instanceof BarrilGasolina) {
-                    moto.recargarGasolina(20f);
-                } else {
-                    moto.recibirImpacto();
-                    sonidoImpacto.play();
-                }
+                
+                
                 entidades.removeIndex(i); i--;
             }
         }
@@ -51,7 +46,7 @@ public class Obstaculos {
         if (MathUtils.random(1, 5) == 1) {
             entidades.add(new BarrilGasolina(x, 480, texturaGasolina));
         } else {
-            entidades.add(new Barril(x, 480, texturaBarril));
+        	entidades.add(new Barril(x, 480, texturaBarril, sonidoImpacto));
         }
         tiempoUltimoBarril = TimeUtils.nanoTime();
     }

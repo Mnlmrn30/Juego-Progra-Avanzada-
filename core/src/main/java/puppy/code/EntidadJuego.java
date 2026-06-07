@@ -28,7 +28,10 @@ public abstract class EntidadJuego {
             textura.dispose();
         }
     }
-
+    public void chocar(MotoAcuatica moto) {
+    	
+    }
+    
     public Rectangle getArea() {
         return area;
     }
