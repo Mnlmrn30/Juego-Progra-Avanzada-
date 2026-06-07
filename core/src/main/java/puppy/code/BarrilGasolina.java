@@ -3,10 +3,10 @@ package puppy.code;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
-public class Barril extends EntidadJuego {
-    private float velocidad = 280f;
+public class BarrilGasolina extends EntidadJuego {
+    private float velocidad = 150f;
 
-    public Barril(float x, float y, Texture textura) {
+    public BarrilGasolina(float x, float y, Texture textura) {
         super(x, y, textura);
     }
 

@@ -39,10 +39,11 @@ public class PantallaJuego implements Screen {
 
         Texture texturaMoto   = new Texture(Gdx.files.internal("moto.png"));
         Texture texturaBarril = new Texture(Gdx.files.internal("barril.png"));
+        Texture texturaGasolina = new Texture(Gdx.files.internal("barrilGasolina.png"));
         sonidoImpacto = Gdx.audio.newSound(Gdx.files.internal("impacto.wav"));
 
         moto       = new MotoAcuatica(texturaMoto, sonidoImpacto);
-        obstaculos = new Obstaculos(texturaBarril, sonidoImpacto);
+        obstaculos = new Obstaculos(texturaBarril, texturaGasolina, sonidoImpacto);
         obstaculos.setMoto(moto);
 
         camara = new OrthographicCamera();
@@ -53,11 +54,8 @@ public class PantallaJuego implements Screen {
         fuenteHUD = new BitmapFont();
         fuenteHUD.getData().setScale(1.3f);
 
-
-        obstaculos.crear();
     }
 
-    @Override
     public void render(float delta) {
     	
     	if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {

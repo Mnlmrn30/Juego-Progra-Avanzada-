@@ -40,12 +40,18 @@ public class MotoAcuatica extends EntidadJuego {
 		float delta = Gdx.graphics.getDeltaTime();
 		boolean izq = Gdx.input.isKeyPressed(Input.Keys.LEFT);
 		boolean der = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
-
+		
+		if (nivelGasolina <= 0) {
+		    velocidadActual = 0;
+		    return; 
+		}
+		
 		float factorEficiencia = (nivelGasolina / 100f); 
 		if (factorEficiencia < 0.2f) factorEficiencia = 0.2f; 
 
 		float aceleracionEfectiva = aceleracion * factorEficiencia;
-
+		
+		
 		if (izq && !der) {
 		    velocidadActual -= aceleracionEfectiva * delta;
 		    if (velocidadActual < -velocidadMaxima * factorEficiencia) 
@@ -78,7 +84,9 @@ public class MotoAcuatica extends EntidadJuego {
 
 	@Override
 	public void destruir() {
-		texturaMoto.dispose();
+	    if (texturaMoto != null) {
+	        texturaMoto.dispose();
+	    }
 	}
 
 	public void recibirImpacto() {
@@ -105,6 +113,7 @@ public class MotoAcuatica extends EntidadJuego {
 	public float getGasolina() {
 		return nivelGasolina;
 	}
+	
 	
 	public Rectangle getArea()      { return areaColision; }
 	public int getVidas()           { return vidas; }

@@ -1,6 +1,5 @@
 package puppy.code;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,53 +7,66 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public class Obstaculos { // Ya no extiende EntidadJuego
-    private Array<Barril> barriles = new Array<>(); // Lista de objetos Barril
+public class Obstaculos {
+    private Array<EntidadJuego> entidades = new Array<>();
     private long tiempoUltimoBarril;
     private final Texture texturaBarril;
+    private final Texture texturaGasolina; 
     private final Sound sonidoImpacto;
     private MotoAcuatica moto;
 
-    public Obstaculos(Texture barril, Sound impacto) {
+    public Obstaculos(Texture barril, Texture gasolina, Sound impacto) {
         this.texturaBarril = barril;
+        this.texturaGasolina = gasolina;
         this.sonidoImpacto = impacto;
     }
 
     public void setMoto(MotoAcuatica moto) { this.moto = moto; }
 
-    public void crear() { spawnBarril(); }
-
-    private void spawnBarril() {
-        Barril b = new Barril(MathUtils.random(0, 800 - 64), 480, texturaBarril);
-        barriles.add(b);
-        tiempoUltimoBarril = TimeUtils.nanoTime();
-    }
-
     public void actualizar() {
         if (moto == null) return;
-        if (TimeUtils.nanoTime() - tiempoUltimoBarril > 1_200_000_000L) spawnBarril();
+        if (TimeUtils.nanoTime() - tiempoUltimoBarril > 1_000_000_000L) spawnEntidad();
 
-        for (int i = 0; i < barriles.size; i++) {
-            Barril b = barriles.get(i);
-            b.actualizar(); // Polimorfismo: el barril sabe moverse solo
+        for (int i = 0; i < entidades.size; i++) {
+            EntidadJuego e = entidades.get(i);
+            e.actualizar();
 
-            if (b.y < -64) {
-                barriles.removeIndex(i);
-                i--;
-            } else if (b.getArea().overlaps(moto.getArea())) {
-                moto.recibirImpacto();
-                sonidoImpacto.play();
-                barriles.removeIndex(i);
-                i--;
+            if (e.y < -64) {
+                entidades.removeIndex(i); i--;
+            } else if (e.getArea().overlaps(moto.getArea())) {
+                // AQUÍ EL POLIMORFISMO
+                if (e instanceof BarrilGasolina) {
+                    moto.recargarGasolina(20f);
+                } else {
+                    moto.recibirImpacto();
+                    sonidoImpacto.play();
+                }
+                entidades.removeIndex(i); i--;
             }
         }
     }
 
-    public void dibujar(SpriteBatch batch) {
-        for (Barril b : barriles) {
-            b.dibujar(batch); // Herencia: el barril sabe dibujarse solo
+    private void spawnEntidad() {
+        float x = MathUtils.random(0, 800 - 64);
+        if (MathUtils.random(1, 5) == 1) {
+            entidades.add(new BarrilGasolina(x, 480, texturaGasolina));
+        } else {
+            entidades.add(new Barril(x, 480, texturaBarril));
         }
+        tiempoUltimoBarril = TimeUtils.nanoTime();
     }
 
-    public void destruir() { texturaBarril.dispose(); }
+    public void dibujar(SpriteBatch batch) {
+        for (EntidadJuego e : entidades) {
+            e.dibujar(batch);
+        }
+    }
+    
+    public void destruir() {
+        texturaBarril.dispose();
+        texturaGasolina.dispose(); 
+        for (EntidadJuego e : entidades) {
+            e.destruir();
+        }
+    }
 }
