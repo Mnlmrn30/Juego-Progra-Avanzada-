@@ -13,7 +13,7 @@ Este proyecto corresponde a un videojuego de evasión en 2D desarrollado en JAVA
 
 * **Lenguaje**: Java 8 / 11.
 * **Motor Gráfico/Framework**: LibGDX.
-* **Gestión de Dependencias y construcción **: Gradle.
+* **Gestión de Dependencias y construcción**: Gradle.
 * **Control de Versiones**: Git/GitHub.
 * **IDE**: Eclipse. 
 
