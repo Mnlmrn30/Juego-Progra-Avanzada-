@@ -13,7 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class PantallaJuego implements Screen {
-
+	private Texture texturaMoto;
     private final GameEvasion juego;
     private boolean pausado = false;
     private OrthographicCamera camara;
@@ -26,7 +26,8 @@ public class PantallaJuego implements Screen {
 
     private MotoAcuatica moto;
     private Obstaculos   obstaculos;
-
+    
+   
     public PantallaJuego(GameEvasion juego) {
         this.juego = juego;
     }
@@ -35,6 +36,16 @@ public class PantallaJuego implements Screen {
     public void show() {
         fondo   = new Texture(Gdx.files.internal("mar.png"));
         overlay = new Texture(Gdx.files.internal("mar.png"));
+        
+        if (GameEvasion.tipoMotoSeleccionada.equals("AZUL")) {
+            texturaMoto = new Texture(Gdx.files.internal("moto azul.png"));
+        } else if (GameEvasion.tipoMotoSeleccionada.equals("ROSA")) {
+            texturaMoto = new Texture(Gdx.files.internal("moto rosa.png"));
+        } else if (GameEvasion.tipoMotoSeleccionada.equals("VERDE")) {
+            texturaMoto = new Texture(Gdx.files.internal("moto verde.png"));
+        } else {
+            texturaMoto = new Texture(Gdx.files.internal("moto.png"));
+        }
 
         Texture texturaMoto   = new Texture(Gdx.files.internal("moto.png"));
         Texture texturaBarril = new Texture(Gdx.files.internal("barril.png"));

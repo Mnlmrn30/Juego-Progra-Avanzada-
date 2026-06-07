@@ -17,10 +17,8 @@ public class MotoAcuatica extends EntidadJuego {
 
 	private float velocidadActual = 0f;
 	private float nivelGasolina = 100f;
-	private final float velocidadMaxima = 520f;
-	private final float aceleracion    = 1400f;
-
-
+	private float velocidadMaxima = 520f;
+	private float aceleracion    = 1400f; 
 	private boolean herido = false;
 	private final int tiempoHeridoMax = 50;
 	private int tiempoHerido = 0;
@@ -31,7 +29,7 @@ public class MotoAcuatica extends EntidadJuego {
 		this.areaColision = new Rectangle(x, y, textura.getWidth(), textura.getHeight());
 	}
 
-	//Procesar las entradas del teclado y aceleración
+	// Procesar las entradas del teclado y aceleración
 	@Override
 	protected void mover() {
 		float delta = Gdx.graphics.getDeltaTime();
@@ -61,17 +59,16 @@ public class MotoAcuatica extends EntidadJuego {
 		areaColision.x += velocidadActual * delta;
 	}
 	
-	// Controlar los limites para que no se salga el personaje
+	// Controlar los límites para que no se salga el personaje
 	@Override
 	protected void comprobarLimites() {
 		if (areaColision.x < 0)        { areaColision.x = 0;         velocidadActual = 0; }
 		if (areaColision.x > 800 - 64) { areaColision.x = 800 - 64;  velocidadActual = 0; }
 	}
 	
-	//Incrementar puntaje y sincronizar variables
+	// Incrementar puntaje y sincronizar variables
 	@Override
 	protected void actualizarTextura() {
-		// Sincronizamos las variables de la clase padre (EntidadJuego) por seguridad
 		this.x = areaColision.x;
 		this.y = areaColision.y;
 		this.area.x = areaColision.x;
@@ -98,6 +95,28 @@ public class MotoAcuatica extends EntidadJuego {
 	    if (texturaMoto != null) {
 	        texturaMoto.dispose();
 	    }
+	}
+	
+	@Override
+	public Rectangle getArea() {
+		return new Rectangle(
+			areaColision.x + 12, 
+			areaColision.y + 4, 
+			areaColision.width - 24, 
+			areaColision.height - 8
+		);
+	}
+	
+	public void setVidas(int vidas) {
+	    this.vidas = vidas;
+	}
+
+	public void setVelocidadMaxima(float velocidadMaxima) {
+	    this.velocidadMaxima = velocidadMaxima;
+	}
+
+	public void setAceleracion(float aceleracion) {
+	    this.aceleracion = aceleracion;
 	}
 
 	public void recibirImpacto() {
@@ -135,7 +154,7 @@ public class MotoAcuatica extends EntidadJuego {
 		}
 	}
 	
-	public Rectangle getArea()      { return areaColision; }
+	
 	public int getVidas()           { return vidas; }
 	public int getDistancia()       { return distancia; }
 	public boolean estaHerido()     { return herido; }
