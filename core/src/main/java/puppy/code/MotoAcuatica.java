@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 
-public class MotoAcuatica implements EntidadJuego {
+public class MotoAcuatica extends EntidadJuego {
 
 	private Rectangle areaColision;
 	private final Texture texturaMoto;
@@ -27,18 +27,11 @@ public class MotoAcuatica implements EntidadJuego {
 	private int tiempoHerido = 0;
 
 	public MotoAcuatica(Texture textura, Sound sonido) {
+		super(800 / 2f - 64 / 2f, 20, textura);
 		this.texturaMoto   = textura;
 		this.sonidoImpacto = sonido;
 	}
 
-	@Override
-	public void crear() {
-		areaColision = new Rectangle();
-		areaColision.x = 800 / 2f - 64 / 2f;
-		areaColision.y = 20;
-		areaColision.width  = 64;
-		areaColision.height = 64;
-	}
 
 	@Override
 	public void actualizar() {

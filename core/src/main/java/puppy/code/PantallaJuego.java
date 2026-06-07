@@ -53,7 +53,7 @@ public class PantallaJuego implements Screen {
         fuenteHUD = new BitmapFont();
         fuenteHUD.getData().setScale(1.3f);
 
-        moto.crear();
+
         obstaculos.crear();
     }
 
@@ -98,7 +98,7 @@ public class PantallaJuego implements Screen {
 
         // Distancia
         fuenteHUD.setColor(0.5f, 0.9f, 1f, 1f);
-        fuenteHUD.draw(batch, "DISTANCIA", 10, 475);
+        fuenteHUD.draw(batch, "DIST", 10, 475);
         fuenteHUD.setColor(Color.WHITE);
         fuenteHUD.draw(batch, String.valueOf(moto.getDistancia()), 60, 475);
 
@@ -116,10 +116,25 @@ public class PantallaJuego implements Screen {
         fuenteHUD.draw(batch, recStr, 800 - layout.width - 10, 475);
         
         if (pausado) {
-        	fuenteHUD.getData().setScale(2f);
-        	fuenteHUD.draw(batch, "PAUSA", 340, 300);
-        	fuenteHUD.getData().setScale(1f);
-        	fuenteHUD.draw(batch, "Presiona P para continuar", 260, 240);
+            // Configuración para el título 
+            fuenteHUD.getData().setScale(3f); 
+            fuenteHUD.setColor(Color.WHITE); 
+            
+            // Calculamos el ancho del texto "PAUSA" 
+            layout.setText(fuenteHUD, "PAUSA");
+            float xPausa = (800 - layout.width) / 2f; 
+            fuenteHUD.draw(batch, "PAUSA", xPausa, 280);
+
+            // Configuración para el subtítulo 
+            fuenteHUD.getData().setScale(1.2f); 
+            fuenteHUD.setColor(Color.LIGHT_GRAY);
+            
+            String instruccion = "Presiona 'P' para continuar";
+            layout.setText(fuenteHUD, instruccion);
+            float xInstruccion = (800 - layout.width) / 2f;
+            fuenteHUD.draw(batch, instruccion, xInstruccion, 220);
+            fuenteHUD.getData().setScale(1f);
+            fuenteHUD.setColor(Color.WHITE);
         }
         
         batch.end();

@@ -5,82 +5,56 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public class Obstaculos implements EntidadJuego {
+public class Obstaculos { // Ya no extiende EntidadJuego
+    private Array<Barril> barriles = new Array<>(); // Lista de objetos Barril
+    private long tiempoUltimoBarril;
+    private final Texture texturaBarril;
+    private final Sound sonidoImpacto;
+    private MotoAcuatica moto;
 
-	private Array<Rectangle> posicionesBarriles;
-	private long tiempoUltimoBarril;
+    public Obstaculos(Texture barril, Sound impacto) {
+        this.texturaBarril = barril;
+        this.sonidoImpacto = impacto;
+    }
 
-	private final Texture texturaBarril;
-	private final Sound   sonidoImpacto;
+    public void setMoto(MotoAcuatica moto) { this.moto = moto; }
 
-	private final float velocidadBarril = 280f;
+    public void crear() { spawnBarril(); }
 
-	// La moto se inyecta antes de llamar actualizar()
-	private MotoAcuatica moto;
+    private void spawnBarril() {
+        Barril b = new Barril(MathUtils.random(0, 800 - 64), 480, texturaBarril);
+        barriles.add(b);
+        tiempoUltimoBarril = TimeUtils.nanoTime();
+    }
 
-	public Obstaculos(Texture barril, Sound impacto) {
-		this.texturaBarril = barril;
-		this.sonidoImpacto  = impacto;
-	}
+    public void actualizar() {
+        if (moto == null) return;
+        if (TimeUtils.nanoTime() - tiempoUltimoBarril > 1_200_000_000L) spawnBarril();
 
-	public void setMoto(MotoAcuatica moto) {
-		this.moto = moto;
-	}
+        for (int i = 0; i < barriles.size; i++) {
+            Barril b = barriles.get(i);
+            b.actualizar(); // Polimorfismo: el barril sabe moverse solo
 
-	@Override
-	public void crear() {
-		posicionesBarriles = new Array<>();
-		spawnBarril();
-	}
+            if (b.y < -64) {
+                barriles.removeIndex(i);
+                i--;
+            } else if (b.getArea().overlaps(moto.getArea())) {
+                moto.recibirImpacto();
+                sonidoImpacto.play();
+                barriles.removeIndex(i);
+                i--;
+            }
+        }
+    }
 
-	private void spawnBarril() {
-		Rectangle barril = new Rectangle();
-		barril.x = MathUtils.random(0, 800 - 64);
-		barril.y = 480;
-		barril.width  = 64;
-		barril.height = 64;
-		posicionesBarriles.add(barril);
-		tiempoUltimoBarril = TimeUtils.nanoTime();
-	}
+    public void dibujar(SpriteBatch batch) {
+        for (Barril b : barriles) {
+            b.dibujar(batch); // Herencia: el barril sabe dibujarse solo
+        }
+    }
 
-	@Override
-	public void actualizar() {
-		if (moto == null) return;
-
-		if (TimeUtils.nanoTime() - tiempoUltimoBarril > 1_200_000_000L) spawnBarril();
-
-		for (int i = 0; i < posicionesBarriles.size; i++) {
-			Rectangle barril = posicionesBarriles.get(i);
-			barril.y -= velocidadBarril * Gdx.graphics.getDeltaTime();
-
-			if (barril.y + 64 < 0) {
-				posicionesBarriles.removeIndex(i);
-				i--;
-				continue;
-			}
-
-			if (barril.overlaps(moto.getArea())) {
-				moto.recibirImpacto();
-				posicionesBarriles.removeIndex(i);
-				i--;
-			}
-		}
-	}
-
-	@Override
-	public void dibujar(SpriteBatch batch) {
-		for (Rectangle barril : posicionesBarriles) {
-			batch.draw(texturaBarril, barril.x, barril.y);
-		}
-	}
-
-	@Override
-	public void destruir() {
-		texturaBarril.dispose();
-
-	}
+    public void destruir() { texturaBarril.dispose(); }
 }
