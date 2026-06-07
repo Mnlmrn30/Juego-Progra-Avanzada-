@@ -30,6 +30,7 @@ public class MotoAcuatica extends EntidadJuego {
 		super(800 / 2f - 64 / 2f, 20, textura);
 		this.texturaMoto   = textura;
 		this.sonidoImpacto = sonido;
+		this.areaColision = new Rectangle(x, y, textura.getWidth(), textura.getHeight());
 	}
 
 
