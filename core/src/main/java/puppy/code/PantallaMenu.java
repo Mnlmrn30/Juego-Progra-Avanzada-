@@ -113,28 +113,28 @@ public class PantallaMenu implements Screen {
         // Opción 1: Gris 
         if (GameEvasion.tipoMotoSeleccionada.equals("ORIGINAL")) fuenteUI.setColor(Color.GREEN);
         else fuenteUI.setColor(Color.WHITE);
-        String opt1 = "1. Moto Gris (Equilibrada) " + (GameEvasion.tipoMotoSeleccionada.equals("ORIGINAL") ? "[X]" : "[ ]");
+        String opt1 = "1. Moto Naranja " + (GameEvasion.tipoMotoSeleccionada.equals("ORIGINAL") ? "[X]" : "[ ]");
         layout.setText(fuenteUI, opt1);
         fuenteUI.draw(batch, opt1, (800 - layout.width) / 2f, 115f);
 
         // Opción 2: Azul
         if (GameEvasion.tipoMotoSeleccionada.equals("AZUL")) fuenteUI.setColor(Color.GREEN);
         else fuenteUI.setColor(Color.WHITE);
-        String opt2 = "2. Moto Azul (Mas Vidas) " + (GameEvasion.tipoMotoSeleccionada.equals("AZUL") ? "[X]" : "[ ]");
+        String opt2 = "2. Moto Azul" + (GameEvasion.tipoMotoSeleccionada.equals("AZUL") ? "[X]" : "[ ]");
         layout.setText(fuenteUI, opt2);
         fuenteUI.draw(batch, opt2, (800 - layout.width) / 2f, 90f);
 
         // Opción 3: Roja
         if (GameEvasion.tipoMotoSeleccionada.equals("ROSA")) fuenteUI.setColor(Color.GREEN);
         else fuenteUI.setColor(Color.WHITE);
-        String opt3 = "3. Moto Roja (Veloz extrema) " + (GameEvasion.tipoMotoSeleccionada.equals("ROSA") ? "[X]" : "[ ]");
+        String opt3 = "3. Moto Rosa" + (GameEvasion.tipoMotoSeleccionada.equals("ROSA") ? "[X]" : "[ ]");
         layout.setText(fuenteUI, opt3);
         fuenteUI.draw(batch, opt3, (800 - layout.width) / 2f, 65f);
 
         // Opción 4: Verde
         if (GameEvasion.tipoMotoSeleccionada.equals("VERDE")) fuenteUI.setColor(Color.GREEN);
         else fuenteUI.setColor(Color.WHITE);
-        String opt4 = "4. Moto Verde (Modo Agil) " + (GameEvasion.tipoMotoSeleccionada.equals("VERDE") ? "[X]" : "[ ]");
+        String opt4 = "4. Moto Verde" + (GameEvasion.tipoMotoSeleccionada.equals("VERDE") ? "[X]" : "[ ]");
         layout.setText(fuenteUI, opt4);
         fuenteUI.draw(batch, opt4, (800 - layout.width) / 2f, 40f);
         // =========================================================================
