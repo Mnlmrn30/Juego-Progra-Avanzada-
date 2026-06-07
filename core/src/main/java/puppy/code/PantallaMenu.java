@@ -125,9 +125,9 @@ public class PantallaMenu implements Screen {
         fuenteUI.draw(batch, opt2, (800 - layout.width) / 2f, 90f);
 
         // Opción 3: Roja
-        if (GameEvasion.tipoMotoSeleccionada.equals("ROJA")) fuenteUI.setColor(Color.GREEN);
+        if (GameEvasion.tipoMotoSeleccionada.equals("ROSA")) fuenteUI.setColor(Color.GREEN);
         else fuenteUI.setColor(Color.WHITE);
-        String opt3 = "3. Moto Roja (Veloz extrema) " + (GameEvasion.tipoMotoSeleccionada.equals("ROJA") ? "[X]" : "[ ]");
+        String opt3 = "3. Moto Roja (Veloz extrema) " + (GameEvasion.tipoMotoSeleccionada.equals("ROSA") ? "[X]" : "[ ]");
         layout.setText(fuenteUI, opt3);
         fuenteUI.draw(batch, opt3, (800 - layout.width) / 2f, 65f);
 

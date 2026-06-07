@@ -47,11 +47,10 @@ public class PantallaJuego implements Screen {
             texturaMoto = new Texture(Gdx.files.internal("moto.png"));
         }
 
-        Texture texturaMoto   = new Texture(Gdx.files.internal("moto.png"));
         Texture texturaBarril = new Texture(Gdx.files.internal("barril.png"));
         Texture texturaGasolina = new Texture(Gdx.files.internal("barrilGasolina.png"));
         
-        moto       = new MotoAcuatica(texturaMoto);
+        moto       = new MotoAcuatica(texturaMoto); 
         obstaculos = new Obstaculos(texturaBarril, texturaGasolina);
         obstaculos.setMoto(moto);
 
