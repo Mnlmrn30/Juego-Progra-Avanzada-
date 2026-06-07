@@ -2,7 +2,6 @@ package puppy.code;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -32,9 +31,9 @@ public class MotoAcuatica extends EntidadJuego {
 		this.areaColision = new Rectangle(x, y, textura.getWidth(), textura.getHeight());
 	}
 
-
+	//Procesar las entradas del teclado y aceleración
 	@Override
-	public void actualizar() {
+	protected void mover() {
 		float delta = Gdx.graphics.getDeltaTime();
 		boolean izq = Gdx.input.isKeyPressed(Input.Keys.LEFT);
 		boolean der = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
@@ -49,7 +48,6 @@ public class MotoAcuatica extends EntidadJuego {
 
 		float aceleracionEfectiva = aceleracion * factorEficiencia;
 		
-		
 		if (izq && !der) {
 		    velocidadActual -= aceleracionEfectiva * delta;
 		    if (velocidadActual < -velocidadMaxima * factorEficiencia) 
@@ -61,9 +59,24 @@ public class MotoAcuatica extends EntidadJuego {
 		}
 
 		areaColision.x += velocidadActual * delta;
+	}
+	
+	// Controlar los limites para que no se salga el personaje
+	@Override
+	protected void comprobarLimites() {
 		if (areaColision.x < 0)        { areaColision.x = 0;         velocidadActual = 0; }
 		if (areaColision.x > 800 - 64) { areaColision.x = 800 - 64;  velocidadActual = 0; }
-
+	}
+	
+	//Incrementar puntaje y sincronizar variables
+	@Override
+	protected void actualizarTextura() {
+		// Sincronizamos las variables de la clase padre (EntidadJuego) por seguridad
+		this.x = areaColision.x;
+		this.y = areaColision.y;
+		this.area.x = areaColision.x;
+		this.area.y = areaColision.y;
+		
 		distancia++;
 	}
 

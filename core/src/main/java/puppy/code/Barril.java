@@ -1,7 +1,6 @@
 package puppy.code;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Barril extends EntidadJuego {
@@ -21,8 +20,16 @@ public class Barril extends EntidadJuego {
     }
 
     @Override
-    public void actualizar() {
+    protected void mover() {
         this.y -= velocidad * Gdx.graphics.getDeltaTime();
+    }
+
+    @Override
+    protected void comprobarLimites() {
+    }
+
+    @Override
+    protected void actualizarTextura() {
         this.area.y = this.y;
     }
 }

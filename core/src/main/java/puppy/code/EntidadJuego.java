@@ -9,6 +9,9 @@ public abstract class EntidadJuego {
     protected float y;
     protected Texture textura;
     protected Rectangle area;
+    protected abstract void mover();
+    protected abstract void comprobarLimites();
+    protected abstract void actualizarTextura();
 
     public EntidadJuego(float x, float y, Texture textura) {
         this.x = x;
@@ -17,8 +20,16 @@ public abstract class EntidadJuego {
         this.area = new Rectangle(x, y, textura.getWidth(), textura.getHeight());
     }
 
-    public abstract void actualizar();
-
+    public void actualizar() {
+    	procesarTurno();
+    }
+    
+    public final void procesarTurno() {
+    	mover();
+    	comprobarLimites();
+    	actualizarTextura();
+    }
+    
     public void dibujar(SpriteBatch batch) {
         batch.draw(textura, x, y);
     }

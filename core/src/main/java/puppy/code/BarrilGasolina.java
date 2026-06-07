@@ -20,8 +20,16 @@ public class BarrilGasolina extends EntidadJuego {
     }
 
     @Override
-    public void actualizar() {
+    protected void mover() {
         this.y -= velocidad * Gdx.graphics.getDeltaTime();
+    }
+
+    @Override
+    protected void comprobarLimites() {
+    }
+
+    @Override
+    protected void actualizarTextura() {
         this.area.y = this.y;
     }
 }
