@@ -35,7 +35,7 @@ public class Obstaculos {
                 entidades.removeIndex(i); i--;
             } else if (e.getArea().overlaps(moto.getArea())) {
                 
-                
+                e.chocar(moto);
                 entidades.removeIndex(i); i--;
             }
         }
