@@ -18,6 +18,7 @@ public class MotoAcuatica extends EntidadJuego {
 	private int distancia = 0;
 
 	private float velocidadActual = 0f;
+	private float nivelGasolina = 100f;
 	private final float velocidadMaxima = 520f;
 	private final float aceleracion    = 1400f;
 	private final float friccion       = 900f;
@@ -40,20 +41,19 @@ public class MotoAcuatica extends EntidadJuego {
 		boolean izq = Gdx.input.isKeyPressed(Input.Keys.LEFT);
 		boolean der = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
 
+		float factorEficiencia = (nivelGasolina / 100f); 
+		if (factorEficiencia < 0.2f) factorEficiencia = 0.2f; 
+
+		float aceleracionEfectiva = aceleracion * factorEficiencia;
+
 		if (izq && !der) {
-			velocidadActual -= aceleracion * delta;
-			if (velocidadActual < -velocidadMaxima) velocidadActual = -velocidadMaxima;
+		    velocidadActual -= aceleracionEfectiva * delta;
+		    if (velocidadActual < -velocidadMaxima * factorEficiencia) 
+		        velocidadActual = -velocidadMaxima * factorEficiencia;
 		} else if (der && !izq) {
-			velocidadActual += aceleracion * delta;
-			if (velocidadActual > velocidadMaxima) velocidadActual = velocidadMaxima;
-		} else {
-			if (velocidadActual > 0) {
-				velocidadActual -= friccion * delta;
-				if (velocidadActual < 0) velocidadActual = 0;
-			} else if (velocidadActual < 0) {
-				velocidadActual += friccion * delta;
-				if (velocidadActual > 0) velocidadActual = 0;
-			}
+		    velocidadActual += aceleracionEfectiva * delta; 
+		    if (velocidadActual > velocidadMaxima * factorEficiencia) 
+		        velocidadActual = velocidadMaxima * factorEficiencia;
 		}
 
 		areaColision.x += velocidadActual * delta;
@@ -88,7 +88,24 @@ public class MotoAcuatica extends EntidadJuego {
 		velocidadActual *= 0.3f;
 		sonidoImpacto.play();
 	}
-
+	
+	public void consumirGasolina(float delta) {
+		if(nivelGasolina > 0) {
+			nivelGasolina -= 5f * delta;
+		}
+	}
+	
+	public void recargarGasolina(float cantidad) {
+		nivelGasolina += cantidad;
+		if (nivelGasolina > 100f ) {
+			nivelGasolina = 100f;
+		}
+	}
+	
+	public float getGasolina() {
+		return nivelGasolina;
+	}
+	
 	public Rectangle getArea()      { return areaColision; }
 	public int getVidas()           { return vidas; }
 	public int getDistancia()       { return distancia; }

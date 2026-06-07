@@ -82,6 +82,7 @@ public class PantallaJuego implements Screen {
         	// Logica
         	if (!moto.estaHerido()) {
                 moto.actualizar();
+                moto.consumirGasolina(Gdx.graphics.getDeltaTime());
                 obstaculos.actualizar();
             }
         }
@@ -115,6 +116,17 @@ public class PantallaJuego implements Screen {
         layout.setText(fuenteHUD, recStr);
         fuenteHUD.draw(batch, recStr, 800 - layout.width - 10, 475);
         
+        // Fondo de la barra 
+        batch.setColor(Color.DARK_GRAY);
+        batch.draw(overlay, 10, 420, 150, 15); 
+
+        // Barra de gasolina 
+        float porcentaje = moto.getGasolina() / 100f;
+        batch.setColor(porcentaje > 0.3f ? Color.GREEN : Color.RED);
+        batch.draw(overlay, 10, 420, 150 * porcentaje, 15);
+
+        batch.setColor(Color.WHITE);
+        fuenteHUD.draw(batch, "GAS", 10, 445);
         if (pausado) {
             // Configuración para el título 
             fuenteHUD.getData().setScale(3f); 
