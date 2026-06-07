@@ -12,13 +12,11 @@ public class Obstaculos {
     private long tiempoUltimoBarril;
     private final Texture texturaBarril;
     private final Texture texturaGasolina; 
-    private final Sound sonidoImpacto;
     private MotoAcuatica moto;
 
-    public Obstaculos(Texture barril, Texture gasolina, Sound impacto) {
+    public Obstaculos(Texture barril, Texture gasolina) {
         this.texturaBarril = barril;
         this.texturaGasolina = gasolina;
-        this.sonidoImpacto = impacto;
     }
 
     public void setMoto(MotoAcuatica moto) { this.moto = moto; }
@@ -46,7 +44,7 @@ public class Obstaculos {
         if (MathUtils.random(1, 5) == 1) {
             entidades.add(new BarrilGasolina(x, 480, texturaGasolina));
         } else {
-        	entidades.add(new Barril(x, 480, texturaBarril, sonidoImpacto));
+        	entidades.add(new Barril(x, 480, texturaBarril));
         }
         tiempoUltimoBarril = TimeUtils.nanoTime();
     }

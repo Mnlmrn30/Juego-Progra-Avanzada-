@@ -26,7 +26,6 @@ public class PantallaJuego implements Screen {
 
     private MotoAcuatica moto;
     private Obstaculos   obstaculos;
-    private Sound        sonidoImpacto;
 
     public PantallaJuego(GameEvasion juego) {
         this.juego = juego;
@@ -40,11 +39,13 @@ public class PantallaJuego implements Screen {
         Texture texturaMoto   = new Texture(Gdx.files.internal("moto.png"));
         Texture texturaBarril = new Texture(Gdx.files.internal("barril.png"));
         Texture texturaGasolina = new Texture(Gdx.files.internal("barrilGasolina.png"));
-        sonidoImpacto = Gdx.audio.newSound(Gdx.files.internal("impacto.wav"));
-
-        moto       = new MotoAcuatica(texturaMoto, sonidoImpacto);
-        obstaculos = new Obstaculos(texturaBarril, texturaGasolina, sonidoImpacto);
+        
+        moto       = new MotoAcuatica(texturaMoto);
+        obstaculos = new Obstaculos(texturaBarril, texturaGasolina);
         obstaculos.setMoto(moto);
+
+        SoundManager.getInstance().iniciarMusicaAmbiente();
+        SoundManager.getInstance().iniciarMotor();
 
         camara = new OrthographicCamera();
         camara.setToOrtho(false, 800, 480);
@@ -53,7 +54,6 @@ public class PantallaJuego implements Screen {
 
         fuenteHUD = new BitmapFont();
         fuenteHUD.getData().setScale(1.3f);
-
     }
 
     public void render(float delta) {
@@ -168,13 +168,7 @@ public class PantallaJuego implements Screen {
 
     @Override
     public void dispose() {
-        moto.destruir();
-        obstaculos.destruir();
-        sonidoImpacto.dispose();
-        fondo.dispose();
-        overlay.dispose();
-        batch.dispose();
-        fuenteHUD.dispose();
+    	SoundManager.getInstance().liberarRecursos();
     }
     
     

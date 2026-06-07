@@ -8,9 +8,9 @@ public class Barril extends EntidadJuego {
     private float velocidad = 280f;
     private EstrategiaColision estrategia; 
 
-    public Barril(float x, float y, Texture textura, Sound sonidoImpacto) {
+    public Barril(float x, float y, Texture textura) {
         super(x, y, textura);
-        this.estrategia = new EstrategiaRestaVida(sonidoImpacto);
+        this.estrategia = new EstrategiaRestaVida();
     }
 
     @Override

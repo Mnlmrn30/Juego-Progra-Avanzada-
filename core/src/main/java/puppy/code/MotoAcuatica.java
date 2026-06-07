@@ -12,7 +12,6 @@ public class MotoAcuatica extends EntidadJuego {
 
 	private Rectangle areaColision;
 	private final Texture texturaMoto;
-	private final Sound sonidoImpacto;
 
 	private int vidas = 3;
 	private int distancia = 0;
@@ -21,16 +20,15 @@ public class MotoAcuatica extends EntidadJuego {
 	private float nivelGasolina = 100f;
 	private final float velocidadMaxima = 520f;
 	private final float aceleracion    = 1400f;
-	private final float friccion       = 900f;
+
 
 	private boolean herido = false;
 	private final int tiempoHeridoMax = 50;
 	private int tiempoHerido = 0;
 
-	public MotoAcuatica(Texture textura, Sound sonido) {
+	public MotoAcuatica(Texture textura) {
 		super(800 / 2f - 64 / 2f, 20, textura);
 		this.texturaMoto   = textura;
-		this.sonidoImpacto = sonido;
 		this.areaColision = new Rectangle(x, y, textura.getWidth(), textura.getHeight());
 	}
 
@@ -94,7 +92,6 @@ public class MotoAcuatica extends EntidadJuego {
 		herido = true;
 		tiempoHerido   = tiempoHeridoMax;
 		velocidadActual *= 0.3f;
-		sonidoImpacto.play();
 	}
 	
 	public void consumirGasolina(float delta) {
