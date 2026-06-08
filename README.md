@@ -39,7 +39,9 @@ Para asegurar una experiencia fluida, el juego se controla de manera intuitiva m
 * **Movimiento Derecha**: Tecla Flecha Derecha.
 * **Comenzar Juego / Reiniciar Juego**: Tecla ENTER.  
 * **Pausa Juego en Curso / Volver de PAUSA**: Tecla letra P.
-* **Volver Menu Principal**: Tecla ESC (Escape). 
+* **Volver Menu Principal**: Tecla ESC (Escape).
+* **Cambio de color Moto**: Teclas númericas 1 - 2 - 3 - 4. 
+* **Seleccionar / Comenzar Juego**: Tecla ENTER.
 
 ## Posibles Mejoras y Trabajo Futuro 
 
