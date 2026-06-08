@@ -50,7 +50,6 @@ Aunque el juego base es completamente funcional, se han identificado las siguien
 * **Progresión de dificultad**: Implementar un algoritmo que aumente la velocidad de caída de los barriles o la cantidad de obstáculos a medida que el jugador acumula más puntos.
 * **Nuevos recursos:** Añadir elementos recolectables temporales, como un "escudo de invulnerabilidad" o un "imán de gasolina".
 * **Persistencia de puntajes**: Integrar lectura y escritura de un archivo de texto local para guardar el récord máximo histórico de los jugadores con un registro de jugadores.
-* **Cambios gráficos**: Integrar opciones de Skin para las motos de los personajes. 
 
 ##  Requisitos del Sistema y Ejecución
 
